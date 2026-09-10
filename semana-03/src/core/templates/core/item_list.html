@@ -1,0 +1,160 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Lista de Items - Sistema Empresarial{% endblock %}
+
+{% block header %}Catálogo de Items{% endblock %}
+
+{% block subtitle %}Gestión y visualización de productos{% endblock %}
+
+{% block content %}
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <h4>
+                <i class="fas fa-list-ul text-primary"></i> 
+                Items Registrados
+                <span class="counter-badge ms-2">
+                    <i class="fas fa-hashtag"></i> {{ total_items }}
+                </span>
+            </h4>
+        </div>
+        <div class="col-md-6 text-md-end">
+            <a href="/admin/core/item/add/" class="btn btn-primary-custom">
+                <i class="fas fa-plus-circle"></i> Agregar Item
+            </a>
+        </div>
+    </div>
+
+    <!-- Buscador interactivo -->
+    <div class="search-box">
+        <span class="search-icon">
+            <i class="fas fa-search"></i>
+        </span>
+        <input 
+            type="text" 
+            id="searchInput" 
+            class="form-control" 
+            placeholder="Buscar items por nombre o descripción..."
+        >
+    </div>
+
+    <!-- Lista de Items -->
+    <div class="row" id="itemsContainer">
+        {% if items %}
+            {% for item in items %}
+                <div class="col-md-4 col-lg-3 mb-4 item-card" data-name="{{ item.name|lower }}" data-description="{{ item.description|lower|default:'' }}">
+                    <div class="card card-item">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <i class="fas fa-box text-primary"></i> 
+                                {{ item.name }}
+                            </h5>
+                            <p class="card-text">
+                                {% if item.description %}
+                                    {{ item.description|truncatechars:100 }}
+                                {% else %}
+                                    <span class="text-muted"><em>Sin descripción</em></span>
+                                {% endif %}
+                            </p>
+                            <div class="item-date">
+                                <i class="far fa-calendar-alt"></i> 
+                                {{ item.created_at|date:"d/m/Y H:i" }}
+                            </div>
+                            <div class="mt-3">
+                                <span class="badge bg-light text-dark">
+                                    <i class="far fa-clock"></i> 
+                                    {% with hours=item.created_at|timesince %}
+                                        {{ hours }}
+                                    {% endwith %}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="col-12">
+                <div class="empty-state">
+                    <i class="fas fa-inbox"></i>
+                    <h4>No hay items registrados</h4>
+                    <p>Comienza agregando tu primer item desde el panel de administración.</p>
+                    <a href="/admin/core/item/add/" class="btn btn-primary-custom mt-3">
+                        <i class="fas fa-plus-circle"></i> Agregar Primer Item
+                    </a>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Buscador de items
+        const searchInput = document.getElementById('searchInput');
+        const itemCards = document.querySelectorAll('.item-card');
+        
+        if (searchInput) {
+            searchInput.addEventListener('keyup', function() {
+                const searchTerm = this.value.toLowerCase().trim();
+                
+                itemCards.forEach(card => {
+                    const name = card.dataset.name || '';
+                    const description = card.dataset.description || '';
+                    
+                    if (searchTerm === '' || 
+                        name.includes(searchTerm) || 
+                        description.includes(searchTerm)) {
+                        card.style.display = 'block';
+                        // Animación de entrada
+                        card.style.animation = 'fadeIn 0.3s ease';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+                
+                // Mostrar mensaje si no hay resultados
+                const visibleCards = document.querySelectorAll('.item-card[style*="display: block"]');
+                const noResults = document.getElementById('noResultsMessage');
+                
+                if (visibleCards.length === 0 && searchTerm !== '') {
+                    // Crear mensaje de no resultados si no existe
+                    let noResultsMsg = document.getElementById('noResultsMessage');
+                    if (!noResultsMsg) {
+                        const container = document.getElementById('itemsContainer');
+                        const message = document.createElement('div');
+                        message.id = 'noResultsMessage';
+                        message.className = 'col-12 text-center py-5';
+                        message.innerHTML = `
+                            <i class="fas fa-search" style="font-size: 3rem; color: #dee2e6;"></i>
+                            <h5 class="mt-3 text-muted">No se encontraron items que coincidan con "${searchTerm}"</h5>
+                            <p class="text-muted">Intenta con otros términos de búsqueda</p>
+                        `;
+                        container.appendChild(message);
+                    }
+                } else {
+                    const noResultsMsg = document.getElementById('noResultsMessage');
+                    if (noResultsMsg) {
+                        noResultsMsg.remove();
+                    }
+                }
+            });
+        }
+        
+        // Animación de entrada para las tarjetas
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeIn {
+                from {
+                    opacity: 0;
+                    transform: translateY(20px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    });
+</script>
+{% endblock %}
