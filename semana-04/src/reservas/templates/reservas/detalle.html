@@ -1,0 +1,34 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<div class="container" style="max-width: 600px;">
+    {% if reserva %}
+    <div class="card shadow-sm">
+        <div class="card-header bg-dark text-white">
+            <h4 class="mb-0">Detalle de Reserva #{{ reserva.id }}</h4>
+        </div>
+        <div class="card-body">
+            <p><strong>Cancha:</strong> {{ reserva.cancha }}</p>
+            <p><strong>Deporte:</strong> {{ reserva.deporte }}</p>
+            <p><strong>Fecha:</strong> {{ reserva.fecha }}</p>
+            <p><strong>Hora:</strong> {{ reserva.hora }}</p>
+            <p><strong>Duración:</strong> {{ reserva.duracion_horas }} hora(s)</p>
+            <p><strong>Precio por Hora:</strong> S/ {{ reserva.precio_hora }}</p>
+            <p class="text-success fs-5"><strong>Costo Total:</strong> S/ {{ reserva.costo_total }}</p>
+            <p><strong>Cliente:</strong> {{ reserva.cliente }}</p>
+            <p><strong>Estado:</strong> 
+                <span class="badge {% if reserva.estado == 'ACTIVA' %}bg-success{% elif reserva.estado == 'CANCELADA' %}bg-danger{% else %}bg-secondary{% endif %}">
+                    {{ reserva.estado }}
+                </span>
+            </p>
+        </div>
+        <div class="card-footer">
+            <a href="{% url 'reservas:lista' %}" class="btn btn-secondary">Volver al Listado</a>
+        </div>
+    </div>
+    {% else %}
+    <div class="alert alert-warning">La reserva solicitada no existe.</div>
+    <a href="{% url 'reservas:lista' %}" class="btn btn-secondary">Volver al Listado</a>
+    {% endif %}
+</div>
+{% endblock %}

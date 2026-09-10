@@ -1,0 +1,31 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<div class="container mt-4" style="max-width: 500px;">
+    <h2 class="mb-3">{% if producto %}Editar Producto{% else %}Nuevo Producto{% endif %}</h2>
+    
+    <form method="post" class="card p-4 shadow-sm bg-white">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label class="form-label">Código del Producto</label>
+            <input type="text" name="codigo" value="{{ producto.codigo|default:'' }}" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Nombre del Útil Escolar</label>
+            <input type="text" name="nombre" value="{{ producto.nombre|default:'' }}" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Precio Unitario (S/)</label>
+            <input type="number" step="0.10" name="precio" value="{{ producto.precio|default:'' }}" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Stock en Almacén</label>
+            <input type="number" name="stock" value="{{ producto.stock|default:'' }}" class="form-control" required>
+        </div>
+        <div class="d-flex gap-2">
+            <button type="submit" class="btn btn-success">Guardar</button>
+            <a href="{% url 'utileria:producto_list' %}" class="btn btn-secondary">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
