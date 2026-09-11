@@ -30,7 +30,7 @@ class Producto(models.Model):
         Categoria,
         on_delete=models.PROTECT,
         related_name='productos',
-        null=True, 
+        null=True,
         blank=True
     )
 
@@ -52,11 +52,22 @@ class FichaTecnicaProducto(models.Model):
         return "Ficha de " + self.producto.nombre
 
 class Pedido(models.Model):
-    producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
-    proveedor = models.ForeignKey(Proveedor, on_delete=models.CASCADE)
-    fecha = models.CharField(max_length=10)
-    cantidad = models.IntegerField()
-    total = models.DecimalField(max_digits=10, decimal_places=2)
+    fecha = models.DateTimeField(auto_now_add=True)
+    estado = models.CharField(max_length=50, default='Pendiente')
+    productos = models.ManyToManyField(
+        Producto,
+        through='DetallePedido',
+        related_name='pedidos'
+    )
 
     def __str__(self):
-        return f"Pedido #{self.id} - {self.producto.nombre}"
+        return f"Pedido #{self.id} - Estado: {self.estado}"
+
+class DetallePedido(models.Model):
+    pedido = models.ForeignKey(Pedido, on_delete=models.CASCADE)
+    producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
+    cantidad = models.PositiveIntegerField(default=1)
+    precio_unitario = models.DecimalField(max_digits=10, decimal_places=2)
+
+    def __str__(self):
+        return f"{self.cantidad}x {self.producto.nombre} en Pedido #{self.pedido.id}"
