@@ -1,9 +1,13 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Producto
+from .models import Producto, Pedido
 
 def producto_list(request):
-    productos = Producto.objects.all()
+    productos = Producto.objects.select_related('categoria', 'ficha_tecnica').all()
     return render(request, "utileria/producto_list.html", {"productos": productos})
+
+def pedido_list(request):
+    pedidos = Pedido.objects.prefetch_related('detallepedido_set__producto').all()
+    return render(request, "utileria/pedido_list.html", {"pedidos": pedidos})
 
 def producto_create(request):
     if request.method == "POST":
