@@ -49,7 +49,7 @@ class FichaTecnicaProducto(models.Model):
     es_toxico = models.BooleanField(default=False)
 
     def __str__(self):
-        return "Ficha de " + self.producto.nombre
+        return f"Ficha de {self.producto.nombre}"
 
 class Pedido(models.Model):
     fecha = models.DateTimeField(auto_now_add=True)
