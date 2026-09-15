@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Producto, Pedido, DetallePedido
+from .models import Producto, Pedido, DetallePedido, Categoria, FichaTecnicaProducto
 
 def producto_list(request):
     productos = Producto.objects.select_related('categoria', 'ficha_tecnica').all()
@@ -23,9 +23,30 @@ def producto_update(request, id):
         producto.nombre = request.POST.get("nombre")
         producto.precio = request.POST.get("precio")
         producto.stock = request.POST.get("stock")
+        categoria_id = request.POST.get("categoria")
+        if categoria_id:
+            producto.categoria_id = categoria_id
+            
         producto.save()
+
+        especificaciones = request.POST.get("especificaciones")
+        peso_gramos = request.POST.get("peso_gramos")
+        if especificaciones and peso_gramos:
+            FichaTecnicaProducto.objects.update_or_create(
+                producto=producto,
+                defaults={
+                    "especificaciones": especificaciones,
+                    "peso_gramos": peso_gramos
+                }
+            )
+
         return redirect("utileria:producto_list")
-    return render(request, "utileria/producto_form.html", {"producto": producto})
+
+    categorias = Categoria.objects.all()
+    return render(request, "utileria/producto_form.html", {
+        "producto": producto, 
+        "categorias": categorias
+    })
 
 def producto_delete(request, id):
     producto = get_object_or_404(Producto, id=id)
