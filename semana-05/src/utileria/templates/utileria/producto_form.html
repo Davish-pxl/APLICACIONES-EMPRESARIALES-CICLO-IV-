@@ -1,0 +1,70 @@
+{% extends 'utileria/base.html' %}
+
+{% block title %}Editar Producto - Utilería{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card shadow-sm">
+            <div class="card-header bg-dark text-white">
+                <h4 class="mb-0">Editar Producto</h4>
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    {% csrf_token %}
+                    
+                    <div class="mb-3">
+                        <label for="codigo" class="form-label fw-bold">Código del Producto</label>
+                        <input type="text" name="codigo" id="codigo" class="form-control" value="{{ producto.codigo }}" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="nombre" class="form-label fw-bold">Nombre del Útil Escolar</label>
+                        <input type="text" name="nombre" id="nombre" class="form-control" value="{{ producto.nombre }}" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="precio" class="form-label fw-bold">Precio Unitario (S/)</label>
+                        <input type="number" step="0.01" name="precio" id="precio" class="form-control" value="{{ producto.precio }}" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="stock" class="form-label fw-bold">Stock en Almacén</label>
+                        <input type="number" name="stock" id="stock" class="form-control" value="{{ producto.stock }}" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="categoria" class="form-label fw-bold">Categoría</label>
+                        <select name="categoria" id="categoria" class="form-select">
+                            <option value="">-- Sin Categoría --</option>
+                            {% for cat in categorias %}
+                                <option value="{{ cat.id }}" {% if producto.categoria_id == cat.id %}selected{% endif %}>
+                                    {{ cat.nombre }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <hr class="my-4">
+                    <h5 class="text-secondary mb-3">Ficha Técnica</h5>
+
+                    <div class="mb-3">
+                        <label for="especificaciones" class="form-label fw-bold">Especificaciones</label>
+                        <textarea name="especificaciones" id="especificaciones" class="form-control" rows="2" placeholder="Ej: Grafito HB, No Tóxico">{{ producto.ficha_tecnica.especificaciones|default:"" }}</textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="peso_gramos" class="form-label fw-bold">Peso en Gramos</label>
+                        <input type="number" step="0.1" name="peso_gramos" id="peso_gramos" class="form-control" value="{{ producto.ficha_tecnica.peso_gramos|default:"" }}" placeholder="Ej: 10.0">
+                    </div>
+
+                    <div class="d-flex justify-content-between pt-2">
+                        <a href="{% url 'utileria:producto_list' %}" class="btn btn-secondary">Cancelar</a>
+                        <button type="submit" class="btn btn-success">Guardar Cambios</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
