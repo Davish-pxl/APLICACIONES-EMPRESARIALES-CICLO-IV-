@@ -52,6 +52,8 @@ A continuación se detalla la configuración y personalización implementada en 
 
 ---
 
+Resultado:
+<img width="1242" height="693" alt="image" src="https://github.com/user-attachments/assets/c7adaa67-379e-409c-a21d-65893c663ab3" />
 ## 3. Requisitos y Ejecución
 
 Las dependencias exactas del proyecto han sido congeladas en `requirements.txt`.
@@ -72,5 +74,3 @@ python manage.py migrate
 # 4. Iniciar servidor local
 python manage.py runserver
 
-Resultado:
-<img width="1242" height="693" alt="image" src="https://github.com/user-attachments/assets/c7adaa67-379e-409c-a21d-65893c663ab3" />
