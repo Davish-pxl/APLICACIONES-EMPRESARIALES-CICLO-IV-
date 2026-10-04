@@ -1,0 +1,9 @@
+{# Parcial para renderizar cada registro del modelo intermedio DetallePedido #}
+<tr>
+    <td><strong>{{ detalle.producto.nombre|upper }}</strong></td>
+    <td><span class="badge bg-info text-dark">{{ detalle.cantidad }} unid.</span></td>
+    <td>S/ {{ detalle.precio_unitario|floatformat:2 }}</td>
+    <td class="text-end">
+        <a href="{% url 'utileria:detalle_delete' detalle.id %}" class="btn btn-sm btn-outline-danger">Quitar</a>
+    </td>
+</tr>

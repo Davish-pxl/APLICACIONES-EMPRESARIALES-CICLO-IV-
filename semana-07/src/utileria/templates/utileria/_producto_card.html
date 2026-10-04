@@ -1,0 +1,11 @@
+{# Componente parcial para las tarjetas del catálogo #}
+<div class="card h-100 shadow-sm border-0">
+    <div class="card-body">
+        <h5 class="card-title fw-bold text-primary">{{ producto.nombre|upper }}</h5>
+        <p class="fs-4 fw-bold text-success mb-0">S/ {{ producto.precio|floatformat:2 }}</p>
+    </div>
+    <div class="card-footer bg-transparent border-0 text-end pb-3">
+        <a href="{% url 'utileria:producto_update' producto.id %}" class="btn btn-sm btn-outline-warning me-1">Editar</a>
+        <a href="{% url 'utileria:producto_delete' producto.id %}" class="btn btn-sm btn-outline-danger">Eliminar</a>
+    </div>
+</div>
