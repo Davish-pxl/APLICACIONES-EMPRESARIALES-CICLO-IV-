@@ -1,0 +1,261 @@
+{% extends 'utileria/base.html' %}
+
+{% block title %}Dashboard de reportes{% endblock %}
+
+{% block content %}
+<style>
+    .dashboard {
+        --dashboard-ink: #172b4d;
+        --dashboard-muted: #667085;
+        --dashboard-border: #e7edf4;
+        padding: 1.25rem 0 2rem;
+    }
+
+    .dashboard-title {
+        color: var(--dashboard-ink);
+        font-weight: 700;
+        letter-spacing: -0.03em;
+    }
+
+    .dashboard-subtitle {
+        color: var(--dashboard-muted);
+    }
+
+    .kpi-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1.25rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .kpi-card,
+    .report-panel {
+        border: 1px solid var(--dashboard-border);
+        border-radius: 12px;
+        background: #fff;
+        box-shadow: 0 8px 24px rgba(23, 43, 77, 0.07);
+    }
+
+    .kpi-card {
+        display: flex;
+        min-height: 170px;
+        align-items: flex-start;
+        gap: 1rem;
+        padding: 1.5rem;
+    }
+
+    .kpi-card-sales {
+        background: linear-gradient(135deg, #fff 0%, #f2faf5 100%);
+    }
+
+    .kpi-icon {
+        display: grid;
+        width: 3rem;
+        height: 3rem;
+        flex: 0 0 3rem;
+        place-items: center;
+        border-radius: 12px;
+        background: #e2f5e9;
+        color: #16834a;
+        font-size: 1.2rem;
+        font-weight: 700;
+    }
+
+    .kpi-icon-orders {
+        background: #e9f0fb;
+        color: #285b9a;
+        font-size: 1.5rem;
+    }
+
+    .kpi-label {
+        margin-bottom: 0.5rem;
+        color: var(--dashboard-muted);
+        font-size: 0.9rem;
+        font-weight: 600;
+    }
+
+    .kpi-value {
+        margin-bottom: 0.5rem;
+        color: #147a45;
+        font-size: clamp(2rem, 4vw, 2.75rem);
+        font-weight: 750;
+        letter-spacing: -0.045em;
+        line-height: 1.1;
+    }
+
+    .kpi-value-orders {
+        color: #285b9a;
+    }
+
+    .kpi-description {
+        margin: 0;
+        color: var(--dashboard-muted);
+        font-size: 0.85rem;
+    }
+
+    .report-panel {
+        padding: 1.5rem;
+    }
+
+    .report-heading {
+        color: var(--dashboard-ink);
+        font-weight: 650;
+        letter-spacing: -0.015em;
+    }
+
+    .report-table {
+        --bs-table-striped-bg: #f7f9fc;
+        --bs-table-hover-bg: #edf4ff;
+        margin-bottom: 0;
+    }
+
+    .report-table thead th {
+        padding: 1rem 1.25rem;
+        border: 0;
+        background: #17365d;
+        color: #fff;
+        font-size: 0.78rem;
+        font-weight: 650;
+        letter-spacing: 0.065em;
+        text-transform: uppercase;
+        vertical-align: middle;
+    }
+
+    .report-table thead th:first-child {
+        border-radius: 8px 0 0;
+    }
+
+    .report-table thead th:last-child {
+        border-radius: 0 8px 0 0;
+    }
+
+    .report-table tbody td {
+        padding: 0.9rem 1.25rem;
+        border-color: var(--dashboard-border);
+        color: #344054;
+        vertical-align: middle;
+    }
+
+    .status-badge {
+        display: inline-flex;
+        align-items: center;
+        border: 1px solid transparent;
+        border-radius: 999px;
+        padding: 0.4rem 0.8rem;
+        font-size: 0.8rem;
+        font-weight: 650;
+    }
+
+    .status-completado {
+        border-color: #a8dfbd;
+        background: #e7f7ed;
+        color: #176b39;
+    }
+
+    .status-pagado {
+        border-color: #b7d3f5;
+        background: #eaf3ff;
+        color: #245c9a;
+    }
+
+    .status-pendiente {
+        border-color: #f3d58a;
+        background: #fff6da;
+        color: #805b00;
+    }
+
+    .status-cancelado {
+        border-color: #efb5b5;
+        background: #fff0f0;
+        color: #a12b2b;
+    }
+
+    .status-default {
+        border-color: #d6deea;
+        background: #edf1f7;
+        color: #40516a;
+    }
+
+    @media (max-width: 640px) {
+        .kpi-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .report-panel {
+            padding: 1rem;
+        }
+
+        .report-table thead th,
+        .report-table tbody td {
+            padding: 0.75rem;
+        }
+    }
+</style>
+
+<main class="dashboard">
+    <header class="mb-4">
+        <h1 class="dashboard-title h2 mb-1">Dashboard de reportes</h1>
+        <p class="dashboard-subtitle mb-0">Resumen ejecutivo de ventas y pedidos registrados.</p>
+    </header>
+
+    <section class="kpi-grid" aria-label="Indicadores principales">
+        <article class="kpi-card kpi-card-sales" aria-labelledby="reporte-total">
+            <div class="kpi-icon" aria-hidden="true">S/</div>
+            <div>
+                <h2 id="reporte-total" class="kpi-label">Total global de ventas</h2>
+                <p class="kpi-value">S/ {{ total_global|floatformat:2 }}</p>
+                <p class="kpi-description">Suma de cantidad por precio unitario de todos los detalles.</p>
+            </div>
+        </article>
+
+        <article class="kpi-card" aria-labelledby="reporte-pedidos">
+            <div class="kpi-icon kpi-icon-orders" aria-hidden="true">#</div>
+            <div>
+                <h2 id="reporte-pedidos" class="kpi-label">Total de pedidos registrados</h2>
+                <p class="kpi-value kpi-value-orders">{{ total_pedidos }}</p>
+                <p class="kpi-description">Cantidad total de pedidos almacenados en el sistema.</p>
+            </div>
+        </article>
+    </section>
+
+    <section class="report-panel" aria-labelledby="reporte-estados">
+        <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+            <div>
+                <h2 id="reporte-estados" class="report-heading h5 mb-1">Pedidos agrupados por estado</h2>
+                <p class="dashboard-subtitle small mb-0">Distribución de pedidos según su estado actual.</p>
+            </div>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-striped table-hover report-table align-middle">
+                <thead>
+                    <tr>
+                        <th scope="col">Estado</th>
+                        <th scope="col" class="text-end">Cantidad de pedidos</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for grupo in pedidos_por_estado %}
+                        {% with estado=grupo.estado_normalizado|default:"sin estado" %}
+                            <tr>
+                                <td>
+                                    <span class="status-badge {% if estado == 'completado' %}status-completado{% elif estado == 'pagado' %}status-pagado{% elif estado == 'pendiente' %}status-pendiente{% elif estado == 'cancelado' %}status-cancelado{% else %}status-default{% endif %}">
+                                        {{ estado|capfirst }}
+                                    </span>
+                                </td>
+                                <td class="text-end fw-semibold">{{ grupo.total }}</td>
+                            </tr>
+                        {% endwith %}
+                    {% empty %}
+                        <tr>
+                            <td colspan="2" class="text-center text-muted py-4">
+                                Todavía no hay pedidos para reportar.
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+</main>
+{% endblock %}

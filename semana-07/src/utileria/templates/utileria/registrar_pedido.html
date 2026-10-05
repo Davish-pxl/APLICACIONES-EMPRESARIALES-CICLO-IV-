@@ -1,0 +1,51 @@
+{% extends 'utileria/base.html' %}
+
+{% block title %}Registrar pedido transaccional{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <h1 class="h2 mb-4">Registrar pedido</h1>
+
+        {# MODIFICADO: mostrar los mensajes flotantes success/error enviados por la vista. #}
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <div class="card shadow-sm">
+            <div class="card-body p-4">
+                <form method="post" action="{% url 'utileria:registrar_pedido_transaccion' %}">
+                    {% csrf_token %}
+
+                    <div class="mb-3">
+                        <label for="producto_id" class="form-label">Producto</label>
+                        <select name="producto_id" id="producto_id" class="form-select" required>
+                            <option value="">-- Seleccione un producto --</option>
+                            {% for prod in productos %}
+                                <option value="{{ prod.id }}">
+                                    {{ prod.nombre }} (Stock: {{ prod.stock }}) - S/ {{ prod.precio }}
+                                </option>
+                            {% empty %}
+                                <option value="" disabled>No hay productos disponibles</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="cantidad" class="form-label">Cantidad</label>
+                        <input type="number" name="cantidad" id="cantidad" class="form-control"
+                               min="1" step="1" value="1" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Procesar pedido</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
