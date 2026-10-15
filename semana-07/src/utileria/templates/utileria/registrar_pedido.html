@@ -1,48 +1,64 @@
 {% extends 'utileria/base.html' %}
 
-{% block title %}Registrar pedido transaccional{% endblock %}
+{% block title %}Transacción de Pedido — Utilería{% endblock %}
 
 {% block content %}
-<div class="row justify-content-center">
-    <div class="col-lg-8">
-        <h1 class="h2 mb-4">Registrar pedido</h1>
-
-        {# MODIFICADO: mostrar los mensajes flotantes success/error enviados por la vista. #}
-        {% if messages %}
-            {% for message in messages %}
-                <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %} alert-dismissible fade show" role="alert">
-                    {{ message }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+<div class="row justify-content-center my-4">
+    <div class="col-md-8 col-lg-6">
+        <div class="card card-item shadow-sm border-0 rounded-3 overflow-hidden">
+            <!-- Encabezado con icono de transacción -->
+            <div class="card-header bg-dark text-white p-3 d-flex align-items-center gap-2">
+                <i class="fas fa-bolt text-warning fs-5"></i>
+                <div>
+                    <h5 class="m-0 fw-bold">Registrar Nuevo Pedido (Transaccional)</h5>
+                    <small class="text-secondary">Operación con descuento</small>
                 </div>
-            {% endfor %}
-        {% endif %}
+            </div>
 
-        <div class="card shadow-sm">
             <div class="card-body p-4">
-                <form method="post" action="{% url 'utileria:registrar_pedido_transaccion' %}">
+                <form method="POST">
                     {% csrf_token %}
 
+                    <!-- Selección de Producto -->
                     <div class="mb-3">
-                        <label for="producto_id" class="form-label">Producto</label>
-                        <select name="producto_id" id="producto_id" class="form-select" required>
+                        <label for="producto_id" class="form-label fw-bold text-dark">
+                            <i class="fas fa-box text-secondary me-1"></i> Seleccionar Producto:
+                        </label>
+                        <select name="producto_id" id="producto_id" class="form-select form-select-lg fs-6" required>
                             <option value="">-- Seleccione un producto --</option>
-                            {% for prod in productos %}
-                                <option value="{{ prod.id }}">
-                                    {{ prod.nombre }} (Stock: {{ prod.stock }}) - S/ {{ prod.precio }}
+                            {% for producto in productos %}
+                                <option value="{{ producto.id }}">
+                                    {{ producto.nombre }} — Stock disponible: {{ producto.stock }} unid. (S/ {{ producto.precio|floatformat:2 }})
                                 </option>
-                            {% empty %}
-                                <option value="" disabled>No hay productos disponibles</option>
                             {% endfor %}
                         </select>
                     </div>
 
-                    <div class="mb-3">
-                        <label for="cantidad" class="form-label">Cantidad</label>
-                        <input type="number" name="cantidad" id="cantidad" class="form-control"
-                               min="1" step="1" value="1" required>
+                    <!-- Cantidad a Solicitar -->
+                    <div class="mb-4">
+                        <label for="cantidad" class="form-label fw-bold text-dark">
+                            <i class="fas fa-cubes text-secondary me-1"></i> Cantidad a solicitar:
+                        </label>
+                        <input 
+                            type="number" 
+                            name="cantidad" 
+                            id="cantidad" 
+                            class="form-control form-control-lg fs-6" 
+                            value="1" 
+                            min="1" 
+                            required
+                        >
                     </div>
 
-                    <button type="submit" class="btn btn-primary">Procesar pedido</button>
+                    <!-- Botones de Acción -->
+                    <div class="d-flex justify-content-between align-items-center pt-3 border-top">
+                        <a href="{% url 'utileria:pedido_list' %}" class="btn btn-outline-secondary px-4">
+                            <i class="fas fa-arrow-left me-1"></i> Volver a Pedidos
+                        </a>
+                        <button type="submit" class="btn btn-warning text-dark fw-bold px-4 shadow-sm">
+                            <i class="fas fa-check-circle me-1"></i> Registrar Pedido
+                        </button>
+                    </div>
                 </form>
             </div>
         </div>
