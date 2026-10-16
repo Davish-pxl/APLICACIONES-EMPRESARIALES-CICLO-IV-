@@ -1,0 +1,351 @@
+{% extends 'utileria/base.html' %}
+
+{% block title %}Dashboard de reportes — Utilería{% endblock %}
+
+{% block content %}
+<style>
+    .dashboard {
+        --dashboard-ink: #172b4d;
+        --dashboard-muted: #667085;
+        --dashboard-border: #e7edf4;
+        padding: 1rem 0 2rem;
+    }
+
+    .dashboard-title {
+        color: var(--dashboard-ink);
+        font-weight: 700;
+        letter-spacing: -0.03em;
+    }
+
+    .dashboard-subtitle {
+        color: var(--dashboard-muted);
+    }
+
+    .kpi-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 1.25rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .kpi-card,
+    .report-panel {
+        border: 1px solid var(--dashboard-border);
+        border-radius: 12px;
+        background: #fff;
+        box-shadow: 0 8px 24px rgba(23, 43, 77, 0.07);
+    }
+
+    .kpi-card {
+        display: flex;
+        min-height: 140px;
+        align-items: flex-start;
+        gap: 1rem;
+        padding: 1.25rem;
+    }
+
+    .kpi-card-sales {
+        background: linear-gradient(135deg, #fff 0%, #f2faf5 100%);
+    }
+
+    .kpi-icon {
+        display: grid;
+        width: 3rem;
+        height: 3rem;
+        flex: 0 0 3rem;
+        place-items: center;
+        border-radius: 12px;
+        background: #e2f5e9;
+        color: #16834a;
+        font-size: 1.2rem;
+        font-weight: 700;
+    }
+
+    .kpi-icon-orders {
+        background: #e9f0fb;
+        color: #285b9a;
+        font-size: 1.3rem;
+    }
+
+    .kpi-icon-pending {
+        background: #fff6da;
+        color: #805b00;
+        font-size: 1.3rem;
+    }
+
+    .kpi-icon-products {
+        background: #e0f2fe;
+        color: #0369a1;
+        font-size: 1.3rem;
+    }
+
+    .kpi-label {
+        margin-bottom: 0.25rem;
+        color: var(--dashboard-muted);
+        font-size: 0.85rem;
+        font-weight: 600;
+    }
+
+    .kpi-value {
+        margin-bottom: 0.25rem;
+        color: #147a45;
+        font-size: clamp(1.8rem, 3vw, 2.25rem);
+        font-weight: 750;
+        letter-spacing: -0.045em;
+        line-height: 1.1;
+    }
+
+    .kpi-value-orders {
+        color: #285b9a;
+    }
+
+    .kpi-value-pending {
+        color: #805b00;
+    }
+
+    .kpi-value-products {
+        color: #0369a1;
+    }
+
+    .kpi-description {
+        margin: 0;
+        color: var(--dashboard-muted);
+        font-size: 0.78rem;
+    }
+
+    .report-panel {
+        padding: 1.5rem;
+    }
+
+    .report-heading {
+        color: var(--dashboard-ink);
+        font-weight: 650;
+        letter-spacing: -0.015em;
+    }
+
+    .report-table {
+        --bs-table-striped-bg: #f7f9fc;
+        --bs-table-hover-bg: #edf4ff;
+        margin-bottom: 0;
+    }
+
+    .report-table thead th {
+        padding: 1rem 1.25rem;
+        border: 0;
+        background: #17365d;
+        color: #fff;
+        font-size: 0.78rem;
+        font-weight: 650;
+        letter-spacing: 0.065em;
+        text-transform: uppercase;
+        vertical-align: middle;
+    }
+
+    .report-table thead th:first-child {
+        border-radius: 8px 0 0;
+    }
+
+    .report-table thead th:last-child {
+        border-radius: 0 8px 0 0;
+    }
+
+    .report-table tbody td {
+        padding: 0.9rem 1.25rem;
+        border-color: var(--dashboard-border);
+        color: #344054;
+        vertical-align: middle;
+    }
+
+    .status-badge {
+        display: inline-flex;
+        align-items: center;
+        border: 1px solid transparent;
+        border-radius: 999px;
+        padding: 0.35rem 0.75rem;
+        font-size: 0.8rem;
+        font-weight: 650;
+    }
+
+    .status-completado {
+        border-color: #a8dfbd;
+        background: #e7f7ed;
+        color: #176b39;
+    }
+
+    .status-pendiente {
+        border-color: #f3d58a;
+        background: #fff6da;
+        color: #805b00;
+    }
+
+    .status-default {
+        border-color: #d6deea;
+        background: #edf1f7;
+        color: #40516a;
+    }
+
+    @media (max-width: 640px) {
+        .kpi-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .report-panel {
+            padding: 1rem;
+        }
+    }
+</style>
+
+<main class="dashboard">
+    <header class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="dashboard-title h2 mb-1">Dashboard de reportes</h1>
+            <p class="dashboard-subtitle mb-0">Resumen ejecutivo de ventas y pedidos registrados.</p>
+        </div>
+        <a href="{% url 'utileria:producto_list' %}" class="btn btn-outline-secondary btn-sm">
+            <i class="fas fa-arrow-left me-1"></i> Volver al Catálogo
+        </a>
+    </header>
+
+    <!-- Indicadores Principales (KPIs) -->
+    <section class="kpi-grid" aria-label="Indicadores principales">
+        <!-- KPI 1: Total Global de Ventas -->
+        <article class="kpi-card kpi-card-sales">
+            <div class="kpi-icon" aria-hidden="true">S/</div>
+            <div>
+                <h2 class="kpi-label">Total global de ventas</h2>
+                <p class="kpi-value">S/ {{ total_global|floatformat:2 }}</p>
+                <p class="kpi-description"></p>
+            </div>
+        </article>
+
+        <!-- KPI 2: Pedidos del Mes -->
+        <article class="kpi-card">
+            <div class="kpi-icon kpi-icon-orders" aria-hidden="true">
+                <i class="fas fa-calendar-check"></i>
+            </div>
+            <div>
+                <h2 class="kpi-label">Pedidos del Mes</h2>
+                <p class="kpi-value kpi-value-orders">{{ pedidos_mes_count }}</p>
+                <p class="kpi-description"></p>
+            </div>
+        </article>
+
+        <!-- KPI 3: Pedidos Pendientes -->
+        <article class="kpi-card">
+            <div class="kpi-icon kpi-icon-pending" aria-hidden="true">
+                <i class="fas fa-clock"></i>
+            </div>
+            <div>
+                <h2 class="kpi-label">Órdenes Pendientes</h2>
+                <p class="kpi-value kpi-value-pending">{{ pedidos_pendientes_count }}</p>
+                <p class="kpi-description"></p>
+            </div>
+        </article>
+
+        <!-- KPI 4: Productos Registrados -->
+        <article class="kpi-card">
+            <div class="kpi-icon kpi-icon-products" aria-hidden="true">
+                <i class="fas fa-boxes-stacked"></i>
+            </div>
+            <div>
+                <h2 class="kpi-label">Productos en Catálogo</h2>
+                <p class="kpi-value kpi-value-products">{{ por_producto|length }}</p>
+                <p class="kpi-description"></p>
+            </div>
+        </article>
+    </section>
+
+    <!-- Tablas de Reportes -->
+    <div class="row g-4">
+        <!-- Tabla 1: Pedidos agrupados por estado -->
+        <div class="col-lg-6">
+            <section class="report-panel h-100">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div>
+                        <h2 class="report-heading h5 mb-1">Pedidos agrupados por estado</h2>
+                        <p class="dashboard-subtitle small mb-0"></p>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover report-table align-middle">
+                        <thead>
+                            <tr>
+                                <th scope="col">Estado</th>
+                                <th scope="col" class="text-end">Cantidad de pedidos</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for grupo in por_estado %}
+                                <tr>
+                                    <td>
+                                        <span class="status-badge {% if grupo.estado|lower == 'completado' %}status-completado{% elif grupo.estado|lower == 'pendiente' %}status-pendiente{% else %}status-default{% endif %}">
+                                            {{ grupo.estado|capfirst }}
+                                        </span>
+                                    </td>
+                                    <td class="text-end fw-bold text-dark fs-5">{{ grupo.cantidad }}</td>
+                                </tr>
+                            {% empty %}
+                                <tr>
+                                    <td colspan="2" class="text-center text-muted py-4">
+                                        Todavía no hay pedidos registrados para reportar.
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+
+        <!-- Tabla 2: Unidades vendidas por producto -->
+        <div class="col-lg-6">
+            <section class="report-panel h-100">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div>
+                        <h2 class="report-heading h5 mb-1">Unidades vendidas por producto</h2>
+                        <p class="dashboard-subtitle small mb-0"></p>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover report-table align-middle">
+                        <thead>
+                            <tr>
+                                <th scope="col">Producto</th>
+                                <th scope="col" class="text-end">Unidades Vendidas</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in por_producto %}
+                                <tr>
+                                    <td class="fw-semibold text-dark">
+                                        <i class="fas fa-box text-secondary me-2"></i> {{ item.nombre }}
+                                    </td>
+                                    <td class="text-end">
+                                        {% if item.unidades %}
+                                            <span class="badge bg-primary-subtle text-primary border border-primary px-3 py-1 fs-6">
+                                                {{ item.unidades }} unid.
+                                            </span>
+                                        {% else %}
+                                            <span class="badge bg-light text-muted border px-2 py-1">
+                                                0 unid.
+                                            </span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% empty %}
+                                <tr>
+                                    <td colspan="2" class="text-center text-muted py-4">
+                                        No hay información de productos disponible.
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+    </div>
+</main>
+{% endblock %}

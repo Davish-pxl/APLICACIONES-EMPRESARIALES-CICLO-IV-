@@ -1,0 +1,143 @@
+{% extends 'utileria/base.html' %}
+
+{% block title %}Nueva Reserva — Sistema de Gestión{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center my-4">
+    <div class="col-md-8 col-lg-6">
+        <div class="card card-item shadow-sm border-0 rounded-3 overflow-hidden">
+            <!-- Encabezado con ícono -->
+            <div class="card-header bg-dark text-white p-3 d-flex align-items-center gap-2">
+                <i class="fas fa-plus-circle text-success fs-5"></i>
+                <h5 class="m-0 fw-bold">Registrar Nueva Reserva</h5>
+            </div>
+
+            <div class="card-body p-4">
+                <form method="post">
+                    {% csrf_token %}
+
+                    <!-- Cancha -->
+                    <div class="mb-3">
+                        <label for="cancha" class="form-label fw-bold text-dark">
+                            <i class="fas fa-running text-secondary me-1"></i> Cancha / Polideportivo
+                        </label>
+                        <input 
+                            type="text" 
+                            name="cancha" 
+                            id="cancha" 
+                            class="form-control form-control-lg fs-6" 
+                            placeholder="Ejemplo: Polideportivo Ruiseñores" 
+                            required
+                        >
+                    </div>
+
+                    <!-- Deporte -->
+                    <div class="mb-3">
+                        <label for="deporte" class="form-label fw-bold text-dark">
+                            <i class="fas fa-futbol text-secondary me-1"></i> Deporte
+                        </label>
+                        <input 
+                            type="text" 
+                            name="deporte" 
+                            id="deporte" 
+                            class="form-control form-control-lg fs-6" 
+                            placeholder="Ejemplo: Fútbol, Vóley, Básquet" 
+                            required
+                        >
+                    </div>
+
+                    <!-- Fecha y Hora en 2 columnas -->
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="fecha" class="form-label fw-bold text-dark">
+                                <i class="fas fa-calendar-alt text-secondary me-1"></i> Fecha
+                            </label>
+                            <input 
+                                type="date" 
+                                name="fecha" 
+                                id="fecha" 
+                                class="form-control form-control-lg fs-6" 
+                                required
+                            >
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label for="hora" class="form-label fw-bold text-dark">
+                                <i class="fas fa-clock text-secondary me-1"></i> Hora
+                            </label>
+                            <input 
+                                type="time" 
+                                name="hora" 
+                                id="hora" 
+                                class="form-control form-control-lg fs-6" 
+                                required
+                            >
+                        </div>
+                    </div>
+
+                    <!-- Duración y Precio por Hora en 2 columnas -->
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="duracion_horas" class="form-label fw-bold text-dark">
+                                <i class="fas fa-hourglass-half text-secondary me-1"></i> Duración (Horas)
+                            </label>
+                            <input 
+                                type="number" 
+                                step="0.5" 
+                                name="duracion_horas" 
+                                id="duracion_horas" 
+                                value="1.0" 
+                                class="form-control form-control-lg fs-6" 
+                                required
+                            >
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label for="precio_hora" class="form-label fw-bold text-dark">
+                                <i class="fas fa-tag text-secondary me-1"></i> Precio por Hora (S/)
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light fw-bold">S/</span>
+                                <input 
+                                    type="number" 
+                                    step="0.1" 
+                                    name="precio_hora" 
+                                    id="precio_hora" 
+                                    value="20.0" 
+                                    class="form-control form-control-lg fs-6" 
+                                    required
+                                >
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Cliente -->
+                    <div class="mb-4">
+                        <label for="cliente" class="form-label fw-bold text-dark">
+                            <i class="fas fa-user text-secondary me-1"></i> Cliente
+                        </label>
+                        <input 
+                            type="text" 
+                            name="cliente" 
+                            id="cliente" 
+                            class="form-control form-control-lg fs-6" 
+                            placeholder="Nombre del cliente que reserva" 
+                            required
+                        >
+                    </div>
+
+                    <!-- Botones de Acción -->
+                    <div class="d-flex justify-content-between align-items-center pt-3 border-top">
+                        <a href="{% url 'reservas:lista' %}" class="btn btn-outline-secondary px-4">
+                            <i class="fas fa-times me-1"></i> Cancelar
+                        </a>
+                        <button type="submit" class="btn btn-success px-4 fw-semibold shadow-sm">
+                            <i class="fas fa-save me-1"></i> Guardar Reserva
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

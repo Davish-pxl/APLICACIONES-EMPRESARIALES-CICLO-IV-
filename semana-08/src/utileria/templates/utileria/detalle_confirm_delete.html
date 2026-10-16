@@ -1,0 +1,24 @@
+{% extends 'utileria/base.html' %}
+
+{% block title %}Eliminar Ítem del Pedido - Utilería{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card shadow-sm border-danger">
+            <div class="card-header bg-danger text-white">
+                <h5 class="mb-0">Confirmar Eliminación</h5>
+            </div>
+            <div class="card-body text-center py-4">
+                <p class="fs-5">¿Estás seguro de que deseas quitar <strong>{{ detalle.producto.nombre }}</strong> ({{ detalle.cantidad }} unid.) de este pedido?</p>
+                
+                <form method="POST">
+                    {% csrf_token %}
+                    <a href="{% url 'utileria:pedido_list' %}" class="btn btn-secondary me-2">Cancelar</a>
+                    <button type="submit" class="btn btn-danger">Sí, Quitar Ítem</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
