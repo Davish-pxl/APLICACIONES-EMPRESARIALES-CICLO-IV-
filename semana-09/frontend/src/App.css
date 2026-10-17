@@ -1,0 +1,165 @@
+/* frontend/src/App.css */
+
+/* Contenedor Principal */
+.container {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 30px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* Encabezados y Secciones */
+.app-header {
+  margin-bottom: 25px;
+  text-align: center;
+}
+
+.subtitulo-seccion {
+  font-size: 1.3rem;
+  color: #2c3e50;
+  margin-top: 25px;
+  margin-bottom: 15px;
+  border-left: 4px solid #3498db;
+  padding-left: 10px;
+  text-align: left;
+}
+
+.linea-separadora {
+  border: 0;
+  height: 1px;
+  background: #e1e8ed;
+  margin: 25px 0;
+}
+
+/* Ejercicio 4: Tarjeta de Cálculos Expresiones */
+.card-calculo {
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  padding: 15px 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.card-calculo p {
+  margin-bottom: 6px;
+  font-size: 0.95rem;
+  color: #475569;
+}
+
+/* Ejercicios 5 y 6: Listado de Productos */
+.lista-productos {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.item-producto {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 18px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-left: 5px solid #3498db;
+  border-radius: 6px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.item-producto:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.info-producto {
+  text-align: left;
+  font-size: 0.95rem;
+  color: #334155;
+}
+
+.badges-container {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+/* Badges de Estado */
+.badge {
+  font-size: 0.78rem;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+.agotado {
+  background-color: #fee2e2;
+  color: #dc2626;
+  border: 1px solid #fca5a5;
+}
+
+.disponible {
+  background-color: #dcfce7;
+  color: #16a34a;
+  border: 1px solid #86efac;
+}
+
+.ultima-unidades {
+  background-color: #fef3c7;
+  color: #d97706;
+  border: 1px solid #fde68a;
+}
+
+.alerta-vacio {
+  padding: 15px;
+  background-color: #fff1f2;
+  color: #e11d48;
+  border-radius: 6px;
+  text-align: center;
+  font-weight: 500;
+}
+
+/* Ejercicio 7: Relación 1:N Pedidos */
+.card-pedido {
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  padding: 20px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+  text-align: left;
+}
+
+.card-pedido h3 {
+  font-size: 1.1rem;
+  color: #1e293b;
+  margin-bottom: 6px;
+}
+
+.card-pedido p {
+  color: #64748b;
+  font-size: 0.9rem;
+  margin-bottom: 12px;
+}
+
+.card-pedido h4 {
+  font-size: 0.95rem;
+  color: #334155;
+  margin-bottom: 8px;
+}
+
+.lista-detalles {
+  list-style-type: square;
+  padding-left: 20px;
+  margin-bottom: 15px;
+  color: #475569;
+  font-size: 0.9rem;
+}
+
+.lista-detalles li {
+  margin-bottom: 4px;
+}
