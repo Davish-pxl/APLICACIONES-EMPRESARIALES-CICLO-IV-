@@ -1,0 +1,14 @@
+$ git ls-files | grep -E '(^|/)(node_modules|dist)/'
+(sin resultados: ningún archivo de node_modules ni dist está en el repositorio)
+
+$ git check-ignore -v frontend/node_modules frontend/dist
+semana-10/frontend/.gitignore:10:node_modules	frontend/node_modules
+semana-10/frontend/.gitignore:11:dist	frontend/dist
+
+$ git status --short --ignored frontend
+!! frontend/.venv/
+!! frontend/dist/
+!! frontend/node_modules/
+
+$ git add --dry-run . | grep -cE 'node_modules|dist/|__pycache__|db.sqlite3|\.claude'
+0

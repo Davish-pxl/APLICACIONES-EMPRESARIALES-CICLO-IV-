@@ -1,0 +1,30 @@
+PS semana-10\frontend> npm run lint
+
+> frontend@0.0.0 lint
+> oxlint
+
+Found 0 warnings and 0 errors.
+Finished in 45ms on 15 files with 104 rules using 16 threads.
+(código de salida: 0)
+
+PS semana-10\frontend> npm run build
+
+> frontend@0.0.0 build
+> vite build
+
+vite v8.3.4 building client environment for production...
+transforming...
+✓ 29 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   0.45 kB │ gzip:  0.29 kB
+dist/assets/index-DuHhh9Md.css    6.16 kB │ gzip:  2.01 kB
+dist/assets/index-Bm1qflPg.js   233.23 kB │ gzip: 72.42 kB
+
+✓ built in 358ms
+(código de salida: 0)
+
+Nota: al ejecutarse desde un proceso sin terminal interactiva, oxlint omite las
+dos líneas de resumen; se obtuvieron con `npx oxlint --format=default .`
+(misma configuración), que confirma 0 diagnósticos (también con --format=json:
+"diagnostics": []).

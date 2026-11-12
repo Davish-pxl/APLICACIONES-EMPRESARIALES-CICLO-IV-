@@ -1,0 +1,90 @@
+{% extends 'utileria/base.html' %}
+
+{% block title %}Lista de Pedidos - Utilería y Papelería{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h3 class="fw-bold text-dark m-0 d-flex align-items-center gap-2">
+            <i class="fas fa-receipt text-primary"></i> 
+            Registro de Pedidos
+        </h3>
+        <p class="text-muted small m-0">Gestión de órdenes, clientes y detalle de ítems solicitados</p>
+    </div>
+    <a href="{% url 'utileria:registrar_pedido_transaccion' %}" class="btn btn-primary-custom text-decoration-none">
+        <i class="fas fa-bolt me-1"></i> Nueva Transacción Atómica
+    </a>
+</div>
+
+{% for pedido in pedidos %}
+<div class="card card-item shadow-sm border-0 mb-4 rounded-3 overflow-hidden">
+    <!-- Encabezado del pedido con badges de estado y relaciones cliente/proveedor -->
+    <div class="card-header bg-dark text-white p-3 d-flex flex-wrap justify-content-between align-items-center gap-2">
+        <div class="d-flex align-items-center gap-2 flex-wrap">
+            <span class="badge bg-primary fs-6 fw-bold">Pedido #{{ pedido.id }}</span>
+            <span class="badge bg-warning text-dark fw-bold">
+                <i class="fas fa-clock me-1"></i>Estado: {{ pedido.estado }}
+            </span>
+            {% if pedido.cliente %}
+                <span class="text-light small border-start ps-2 ms-1">
+                    <i class="fas fa-user text-info me-1"></i> <strong>Cliente:</strong> {{ pedido.cliente.nombre }}
+                </span>
+            {% endif %}
+            {% if pedido.proveedor %}
+                <span class="text-light small border-start ps-2 ms-1">
+                    <i class="fas fa-truck text-secondary me-1"></i> <strong>Proveedor:</strong> {{ pedido.proveedor.razon_social }}
+                </span>
+            {% endif %}
+        </div>
+        {# Implementación de fecha y hora de creación del pedido. #}
+        <div class="text-light small opacity-75">
+            <i class="far fa-calendar-alt me-1"></i> {{ pedido.fecha|date:"d/m/Y H:i" }}
+        </div>
+    </div>
+
+    <!-- Tabla de Detalles del Pedido -->
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th class="ps-4">Producto</th>
+                        <th class="text-center">Cantidad</th>
+                        <th class="text-end">Precio Unitario</th>
+                        <th class="text-end pe-4">Acción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {# Recorrido del modelo intermedio mediante reverse lookup N:M #}
+                    {% for detalle in pedido.detallepedido_set.all %}
+                        {% include 'utileria/_detalle_item.html' %}
+                    {% empty %}
+                        <tr>
+                            <td colspan="4" class="text-center text-muted py-3">
+                                <em>Sin artículos registrados en este pedido.</em>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Pie de Tarjeta con Acción -->
+    <div class="card-footer bg-light p-3 text-end border-top">
+        <a href="{% url 'utileria:detalle_create' pedido.id %}" class="btn btn-success btn-sm px-3 fw-semibold shadow-sm">
+            <i class="fas fa-plus me-1"></i> Agregar Producto a Pedido
+        </a>
+    </div>
+</div>
+{% empty %}
+<div class="empty-state my-4">
+    <i class="fas fa-inbox"></i>
+    <h4 class="fw-bold text-dark">No hay pedidos registrados</h4>
+    <p class="text-muted">Actualmente no existen registros de pedidos cargados en el sistema.</p>
+    <a href="{% url 'utileria:registrar_pedido_transaccion' %}" class="btn btn-primary-custom text-decoration-none mt-2">
+        <i class="fas fa-bolt me-1"></i> Registrar Primer Pedido
+    </a>
+</div>
+{% endfor %}
+{% endblock %}

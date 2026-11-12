@@ -1,0 +1,28 @@
+{
+  "resultado": {
+    "pasos": [
+      "clic en cada boton +Agregar / Ver productos",
+      "clic en Ocultar productos",
+      "escritura en los 3 buscadores",
+      "formulario de producto: envio invalido y valido",
+      "formulario de categoria: envio invalido y valido"
+    ],
+    "productosEnLista": 6,
+    "categorias": 4,
+    "url": "http://localhost:5174/"
+  },
+  "mensajes": [
+    {
+      "tipo": "debug",
+      "texto": "[vite] connecting..."
+    },
+    {
+      "tipo": "debug",
+      "texto": "[vite] connected."
+    },
+    {
+      "tipo": "info",
+      "texto": "%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold"
+    }
+  ]
+}

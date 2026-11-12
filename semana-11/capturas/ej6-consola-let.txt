@@ -1,0 +1,19 @@
+Ejercicio 6 — Prueba con una variable normal (let) en lugar de useState
+Código probado en TarjetaProducto.jsx:
+    let cantidad = 0;
+    function agregar() {
+      cantidad = cantidad + 1;
+      console.log(`[let] ${nombre}: cantidad = ${cantidad}`);
+    }
+
+Se hizo clic 3 veces en "+ Agregar" del Cuaderno A4 Anillado.
+
+Consola del navegador:
+[let] Cuaderno A4 Anillado: cantidad = 1
+[let] Cuaderno A4 Anillado: cantidad = 2
+[let] Cuaderno A4 Anillado: cantidad = 3
+
+Texto de la tarjeta después de los 3 clics:
+Cuaderno A4 Anillado (PROD001) — Precio: S/ 12.50 | Stock: 15 | + Agregar
+
+Resultado: la variable sí cambia (1, 2, 3), pero la pantalla no: nunca aparece "Seleccionados: N".

@@ -1,0 +1,80 @@
+{% extends 'utileria/base.html' %}
+
+{% block title %}Detalle de Reserva #{{ reserva.id }} — Sistema{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center my-4">
+    <div class="col-md-8 col-lg-6">
+        {% if reserva %}
+            <div class="card card-item shadow-sm border-0 rounded-3 overflow-hidden">
+                <!-- Encabezado de la Tarjeta -->
+                <div class="card-header bg-dark text-white p-3 d-flex justify-content-between align-items-center">
+                    <h5 class="m-0 fw-bold d-flex align-items-center gap-2">
+                        <i class="fas fa-file-invoice text-info"></i> Detalle de Reserva #{{ reserva.id }}
+                    </h5>
+                    <span class="badge {% if reserva.estado == 'ACTIVA' %}bg-success-subtle text-success border border-success{% elif reserva.estado == 'CANCELADA' %}bg-danger-subtle text-danger border border-danger{% else %}bg-secondary{% endif %} px-3 py-1 fw-bold fs-6">
+                        {{ reserva.estado }}
+                    </span>
+                </div>
+
+                <!-- Cuerpo con Lista de Atributos -->
+                <div class="card-body p-4">
+                    <ul class="list-group list-group-flush mb-4">
+                        <li class="list-group-item d-flex justify-content-between align-items-center py-3">
+                            <span class="text-muted fw-semibold"><i class="fas fa-running text-primary me-2"></i> Cancha:</span>
+                            <span class="fw-bold text-dark fs-6">{{ reserva.cancha }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center py-3">
+                            <span class="text-muted fw-semibold"><i class="fas fa-futbol text-primary me-2"></i> Deporte:</span>
+                            <span class="badge bg-light text-dark border fs-6">{{ reserva.deporte }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center py-3">
+                            <span class="text-muted fw-semibold"><i class="far fa-calendar-alt text-primary me-2"></i> Fecha:</span>
+                            <span class="fw-semibold text-secondary">{{ reserva.fecha }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center py-3">
+                            <span class="text-muted fw-semibold"><i class="far fa-clock text-primary me-2"></i> Hora:</span>
+                            <span class="fw-semibold text-secondary">{{ reserva.hora }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center py-3">
+                            <span class="text-muted fw-semibold"><i class="fas fa-hourglass-half text-primary me-2"></i> Duración:</span>
+                            <span class="fw-semibold">{{ reserva.duracion_horas }} hora(s)</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center py-3">
+                            <span class="text-muted fw-semibold"><i class="fas fa-tag text-primary me-2"></i> Precio por Hora:</span>
+                            <span class="fw-bold text-secondary">S/ {{ reserva.precio_hora|floatformat:2 }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center py-3">
+                            <span class="text-muted fw-semibold"><i class="fas fa-user text-primary me-2"></i> Cliente:</span>
+                            <span class="fw-bold text-dark">{{ reserva.cliente }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center py-3 bg-success-subtle rounded-3 mt-2 border border-success-subtle">
+                            <span class="text-success-emphasis fw-bold"><i class="fas fa-wallet me-2"></i> Costo Total:</span>
+                            <span class="fw-bold text-success fs-4">S/ {{ reserva.costo_total|floatformat:2 }}</span>
+                        </li>
+                    </ul>
+
+                    <!-- Botón de Retorno -->
+                    <div class="d-flex justify-content-between align-items-center border-top pt-3">
+                        <a href="{% url 'reservas:lista' %}" class="btn btn-outline-secondary px-4">
+                            <i class="fas fa-arrow-left me-1"></i> Volver al Listado
+                        </a>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <!-- Estado si no existe la reserva -->
+            <div class="card card-item shadow-sm border-0 rounded-3 p-4 text-center">
+                <div class="empty-state py-3">
+                    <i class="fas fa-exclamation-triangle text-warning fs-1 mb-3"></i>
+                    <h4 class="fw-bold text-dark">Reserva no encontrada</h4>
+                    <p class="text-muted">La reserva solicitada no existe o no se encuentra disponible.</p>
+                    <a href="{% url 'reservas:lista' %}" class="btn btn-primary-custom text-decoration-none mt-2">
+                        <i class="fas fa-arrow-left me-1"></i> Volver al Listado
+                    </a>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
