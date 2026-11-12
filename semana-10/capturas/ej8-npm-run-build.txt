@@ -1,0 +1,17 @@
+PS semana-10\frontend> npm run build
+
+> frontend@0.0.0 build
+> vite build
+
+vite v8.3.4 building client environment for production...
+transforming...
+✓ 24 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   0.45 kB │ gzip:  0.29 kB
+dist/assets/index-CsEbDO8i.css    5.50 kB │ gzip:  1.88 kB
+dist/assets/index-HoN5-xUX.js   230.13 kB │ gzip: 71.92 kB
+
+✓ built in 367ms
+
+(código de salida: 0)

@@ -1,0 +1,10 @@
+Ejercicio 5 — Consola del navegador al intentar modificar una prop
+Código probado en ItemDetalle.jsx:  props.cantidad = props.cantidad + 1;
+
+Uncaught TypeError: Cannot assign to read only property 'cantidad' of object '#<Object>'
+    source: http://localhost:5173/src/components/ItemDetalle.jsx (línea 4 del módulo compilado)
+
+An error occurred in the <ItemDetalle> component. Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://react.dev/link/error-boundaries to learn more about error boundaries.
+
+Resultado: <div id="root"> queda vacío y la página entera se muestra en blanco.

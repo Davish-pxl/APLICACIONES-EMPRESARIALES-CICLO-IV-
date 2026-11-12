@@ -1,0 +1,13 @@
+PS semana-10\frontend> npm run lint
+
+> frontend@0.0.0 lint
+> oxlint
+
+Found 0 warnings and 0 errors.
+Finished in 30ms on 10 files with 104 rules using 16 threads.
+
+(código de salida: 0)
+
+Nota: cuando la salida se redirige a un archivo, oxlint solo imprime los hallazgos
+y omite las dos líneas de resumen. Las líneas "Found 0 warnings and 0 errors." y
+"Finished in ..." son las que muestra al ejecutarse directamente en la terminal.
