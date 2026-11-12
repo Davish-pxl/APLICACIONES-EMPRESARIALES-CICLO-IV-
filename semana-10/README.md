@@ -1,9 +1,5 @@
 # Semana 10 — Componentes en React
 
-**Repositorio de GitHub:** <https://github.com/Davish-pxl/APLICACIONES-EMPRESARIALES-CICLO-IV->
-
-**Carpeta de esta semana:** <https://github.com/Davish-pxl/APLICACIONES-EMPRESARIALES-CICLO-IV-/tree/main/semana-10>
-
 Este laboratorio convierte el `App.jsx` de la Semana 9, que tenía todo en un
 solo archivo, en **componentes funcionales reutilizables** que reciben datos
 por **props**, guardan **estado** con `useState`, responden a **eventos** y
@@ -2178,13 +2174,6 @@ git add semana-10/.gitignore semana-10/README.md semana-10/capturas semana-10/fr
 git commit -m "Semana 10: componentes, props, estado y formularios en React"
 git push origin main
 ```
-
-### 4. Dirección del repositorio
-
-- **Repositorio:** <https://github.com/Davish-pxl/APLICACIONES-EMPRESARIALES-CICLO-IV->
-- **Semana 10:** <https://github.com/Davish-pxl/APLICACIONES-EMPRESARIALES-CICLO-IV-/tree/main/semana-10>
-- **Frontend:** <https://github.com/Davish-pxl/APLICACIONES-EMPRESARIALES-CICLO-IV-/tree/main/semana-10/frontend>
-- **Componentes:** <https://github.com/Davish-pxl/APLICACIONES-EMPRESARIALES-CICLO-IV-/tree/main/semana-10/frontend/src/components>
 
 Para clonarlo y ejecutarlo desde cero:
 
