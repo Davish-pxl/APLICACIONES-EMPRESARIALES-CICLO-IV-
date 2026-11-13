@@ -188,7 +188,6 @@ def registrar_pedido_transaccion(request):
             return redirect('utileria:registrar_pedido_transaccion')
 
         try:
-            # try/except fuera del bloque atomic() para captura limpia de errores
             with transaction.atomic():
                 producto = Producto.objects.select_for_update().get(pk=producto_id)
                 stock_actualizado = Producto.objects.filter(

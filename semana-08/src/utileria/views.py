@@ -94,8 +94,7 @@ def producto_delete(request, id):
 def pedido_list(request):
     # Reutilización encadenada del QuerySet personalizado y optimización prefetch/select_related
     pedidos = (
-        Pedido.objects.pendientes()
-        .del_mes()
+        Pedido.objects.all()
         .select_related('cliente', 'proveedor')
         .prefetch_related('detallepedido_set__producto')
     )

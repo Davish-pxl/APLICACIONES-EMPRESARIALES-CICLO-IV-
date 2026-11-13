@@ -1,0 +1,94 @@
+{% extends 'utileria/base.html' %}
+
+{% block title %}Dejar una Consulta — Reservas Deportivas{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center my-4">
+    <div class="col-md-8 col-lg-6">
+        <div class="card card-item shadow-sm border-0 rounded-3 overflow-hidden">
+            <!-- Encabezado con ícono -->
+            <div class="card-header bg-dark text-white p-3 d-flex align-items-center gap-2">
+                <i class="fas fa-question-circle text-info fs-5"></i>
+                <div>
+                    <h5 class="m-0 fw-bold">Dejar una Consulta</h5>
+                    <small class="text-secondary">Envía tus dudas o comentarios sobre las instalaciones</small>
+                </div>
+            </div>
+
+            <div class="card-body p-4">
+                <!-- Alertas del sistema -->
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-success alert-dismissible fade show shadow-sm border-0 mb-4" role="alert">
+                            <i class="fas fa-check-circle me-2"></i> {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+
+                <form method="post">
+                    {% csrf_token %}
+                    
+                    <!-- Formulario de Django Renderizado con Estilos Bootstrap -->
+                    <div class="mb-3 django-form-fields">
+                        {% for field in form %}
+                            <div class="mb-3">
+                                <label for="{{ field.id_for_label }}" class="form-label fw-bold text-dark">
+                                    {{ field.label }}
+                                </label>
+                                {{ field }}
+                                {% if field.help_text %}
+                                    <div class="form-text text-muted">{{ field.help_text }}</div>
+                                {% endif %}
+                                {% for error in field.errors %}
+                                    <div class="text-danger small mt-1"><i class="fas fa-exclamation-circle me-1"></i>{{ error }}</div>
+                                {% endfor %}
+                            </div>
+                        {% empty %}
+                            {{ form.as_p }}
+                        {% endfor %}
+                    </div>
+
+                    <!-- Botones de Acción -->
+                    <div class="d-flex justify-content-between align-items-center pt-3 border-top mt-4">
+                        <a href="{% url 'reservas:lista' %}" class="btn btn-outline-secondary px-4">
+                            <i class="fas fa-arrow-left me-1"></i> Volver al Listado
+                        </a>
+                        <button type="submit" class="btn btn-info text-white px-4 fw-semibold shadow-sm">
+                            <i class="fas fa-paper-plane me-1"></i> Enviar Consulta
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Estilizado automático para los campos generados por form.as_p o loop de campos */
+    .django-form-fields input[type="text"],
+    .django-form-fields input[type="email"],
+    .django-form-fields textarea,
+    .django-form-fields select {
+        display: block;
+        width: 100%;
+        padding: 0.5rem 0.85rem;
+        font-size: 0.95rem;
+        font-weight: 400;
+        line-height: 1.5;
+        color: #212529;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid #cbd5e1;
+        border-radius: 8px;
+        transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    }
+    .django-form-fields input:focus,
+    .django-form-fields textarea:focus,
+    .django-form-fields select:focus {
+        border-color: #38bdf8;
+        outline: 0;
+        box-shadow: 0 0 0 0.25rem rgba(56, 189, 248, 0.25);
+    }
+</style>
+{% endblock %}

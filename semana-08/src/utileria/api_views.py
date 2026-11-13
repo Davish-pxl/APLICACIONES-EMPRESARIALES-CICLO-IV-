@@ -53,7 +53,7 @@ class PedidoViewSet(viewsets.ReadOnlyModelViewSet):
         # Filtro por parámetro URL: ?estado=PAGADO (o ?estado=pendiente)
         estado = self.request.query_params.get('estado')
         if estado:
-            qs = qs.filter(estado=estado.upper())
+            qs = qs.filter(estado__iexact=estado)
 
         return qs
 
