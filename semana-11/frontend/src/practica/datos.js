@@ -1,3 +1,5 @@
+// Datos escritos a mano con la misma forma que la respuesta de la API de la Semana 8:
+// el precio viaja como texto, igual que lo devuelve Django REST Framework.
 export const productos = [
   { id: 1, codigo: 'PROD001', nombre: 'Cuaderno A4 Anillado', precio: '12.50', stock: 15 },
   { id: 2, codigo: 'PROD002', nombre: 'Bolígrafo Azul 0.7mm', precio: '2.80', stock: 3 },
