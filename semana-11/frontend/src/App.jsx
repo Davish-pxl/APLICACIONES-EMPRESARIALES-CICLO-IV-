@@ -18,6 +18,7 @@ import ListaCategorias from './components/ListaCategorias'
 // Ejercicio 12 — Formulario de la investigación propia
 import FormularioCategoria from './components/FormularioCategoria'
 // Semana 11 — Parte 1: mini catálogo con carrito (src/practica)
+//Verifica que frontend/src/App.jsx renderice Practica
 import Practica from './practica/Practica'
 
 function App() {
